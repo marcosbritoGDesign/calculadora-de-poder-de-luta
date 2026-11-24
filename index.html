@@ -71,8 +71,8 @@ small{color:var(--mut);font-size:.68rem}
 #acts button{background:#0c1020;color:var(--ink);border:2px solid var(--org);border-radius:8px;padding:9px 16px;font-size:1rem;cursor:pointer}
 #acts button:hover{background:var(--org);color:#000}
 .hide{display:none!important}
-#stage.friend #scouter{width:100%}
-#stage.friend{grid-template-columns:auto minmax(0,340px);justify-content:center}
+.locked #left{opacity:.5}
+#go:disabled{opacity:.5;cursor:not-allowed}
 @media(max-width:640px){#left{width:auto}#scouter{width:auto}body{height:auto;overflow:auto}#stage{display:block}#mid{width:min(360px,92vw);margin:0 auto 10px}.col{margin-bottom:10px;max-height:none}header{flex-wrap:wrap}.note{position:static;width:auto}}
 </style>
 </head>
@@ -111,6 +111,7 @@ small{color:var(--mut);font-size:.68rem}
   <div id="scouter" class="hide">
    <div id="who"></div><div id="tier">&nbsp;</div><div id="info"></div>
    <div id="acts"><button id="share">Compartilhar</button><button id="shot">Fazer print</button><button id="reset">Zerar</button></div>
+   <small id="fhint" class="hide" style="display:block;margin-top:10px">Quer fazer o seu? Clique em “Zerar e fazer o meu” para limpar tudo.</small>
   </div>
  </div>
 </div>
@@ -319,8 +320,9 @@ Promise.all(Object.keys(DATA).map(k=>new Promise(r=>{const i=new Image();i.onloa
   if(m){try{const d=JSON.parse(decodeURIComponent(escape(atob(m[1]))));if(d.p>0)friend=d;}catch(e){}}
   if(friend){
     S=cleanS(friend.s);friend.n=String(friend.n||'Guerreiro').slice(0,16);
-    $('stage').classList.add('friend');['left','mk','goBox'].forEach(i=>$(i).remove());$('nameBox').remove();
-    $('plate').textContent=friend.n;$('share').classList.add('hide');$('reset').textContent='Zerar e fazer o meu';
+    $('stage').classList.add('locked');document.querySelectorAll('#left input,#left select,#nome,#go').forEach(e=>e.disabled=true);
+    $('nome').value=friend.n;$('msg').textContent='';$('mk').style.display='none';
+    $('share').classList.add('hide');$('reset').textContent='Zerar e fazer o meu';$('fhint').classList.remove('hide');
     ready=true;drawFig();plate();$('scouter').classList.remove('hide');
     setTimeout(()=>reveal(+friend.p,'Poder de luta de '+friend.n,'Gordura corporal estimada: '+(+friend.bf).toFixed(1)+'%'),700);
   }else{ready=true;S.body=autoBody();drawFig();ui();plate();$('msg').textContent='';}
