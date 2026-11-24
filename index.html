@@ -2,29 +2,23 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>RASTREADOR · Poder de Luta</title>
 <style>
 :root{--bg:#10131f;--panel:#1a2033;--ink:#f4efe2;--mut:#8f9ab8;--org:#ff8a1f;--grn:#5dff8a}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 30%,#1f2a52,var(--bg) 70%);color:var(--ink);font-family:"Trebuchet MS",Verdana,sans-serif}
-header{flex:none;display:flex;align-items:center;gap:16px;padding:6px 16px}
-h1{margin:0;font-family:Impact,"Arial Narrow Bold",sans-serif;font-size:2rem;letter-spacing:.04em;color:var(--org);text-shadow:2px 2px 0 #7a1d00}
-#nameBox{flex:1;text-align:center}
-#nome{width:min(520px,100%);font-family:Impact,sans-serif;font-size:1.6rem;text-align:center;text-transform:uppercase;letter-spacing:.06em;background:#0c1020;border:3px solid var(--org);color:#ffe9a8;border-radius:10px;padding:3px 8px}
-#how{position:relative;font-size:.85rem;color:var(--mut)}
-#how summary{cursor:pointer;white-space:nowrap}
-.note{position:absolute;right:0;top:26px;width:420px;z-index:30;background:var(--panel);border:2px solid #2d3a66;border-radius:10px;padding:12px;color:var(--ink);font-size:.8rem;line-height:1.5}
-#stage{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;padding:0 12px 10px}
+#stage{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;padding:10px 12px}
 .col{display:grid;gap:8px;background:var(--panel);padding:12px;border-radius:12px;border:2px solid #2d3a66;overflow:auto;max-height:100%;align-content:start}
 .col h2{margin:0;font-family:Impact,sans-serif;font-weight:normal;font-size:1.2rem;color:var(--org);letter-spacing:.05em}
+#left{width:40%;min-width:170px;justify-self:end}
 label{display:grid;gap:2px;font-size:.8rem;color:var(--mut);align-content:start}
 input,select{background:#0c1020;border:1px solid #34457c;color:var(--ink);padding:5px 7px;border-radius:6px;font-size:1rem;width:100%}
 input:focus,select:focus,button:focus-visible{outline:2px solid var(--org)}
 small{color:var(--mut);font-size:.68rem}
-#left{width:40%;min-width:170px;justify-self:end}
 #hmsg{color:#ff8a6a;font-size:.72rem}
+.c1,.c2{display:grid;gap:8px;align-content:start}
 .grp b{display:block;font-size:.8rem;color:var(--mut);margin-bottom:3px;font-weight:normal}
 .chips{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end}
 .chip{background:#0c1020;border:2px solid #34457c;border-radius:8px;color:var(--ink);padding:3px;cursor:pointer;font-size:.68rem;display:grid;justify-items:center;gap:2px}
@@ -37,12 +31,15 @@ small{color:var(--mut);font-size:.68rem}
 #right>*{grid-area:1/1}
 #mk{transition:transform .9s cubic-bezier(.55,0,.8,.4),opacity .9s}
 #mk.out{transform:translateX(130%);opacity:0}
-#mid{width:calc((100dvh - 215px)*.533);min-width:200px;max-width:400px;display:flex;flex-direction:column;min-height:0}
+#mid{width:calc((100dvh - 150px)*.533);min-width:200px;max-width:420px;display:flex;flex-direction:column;min-height:0}
 #view{width:100%}
 #stack{position:relative;width:100%;aspect-ratio:600/1126}
 #stack canvas{position:absolute;inset:0;width:100%;height:100%}
 #fig{z-index:2}
-#plate{margin-top:4px;text-align:center;font-family:Impact,sans-serif;color:#ffe9a8;text-shadow:2px 2px 0 #7a1d00,0 0 10px #000;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;line-height:1.1;height:34px}
+#nome{width:100%;height:38px;margin-top:4px;padding:0;font-family:Impact,sans-serif;text-align:center;text-transform:uppercase;letter-spacing:.06em;color:#ffe9a8;background:transparent;border:0;border-bottom:2px dashed #ff8a1f88;border-radius:0;text-shadow:2px 2px 0 #7a1d00,0 0 10px #000;outline:none}
+#nome::placeholder{color:var(--mut);text-shadow:none;opacity:.8}
+#nome:focus{border-bottom-color:var(--org)}
+#nome:disabled{border-bottom-color:transparent}
 #hud{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity .5s}
 #hud.on{opacity:1}
 #hud .tint{position:absolute;inset:0;border:3px solid var(--grn);border-radius:10px;background:repeating-linear-gradient(0deg,rgba(93,255,138,.07) 0 2px,transparent 2px 4px),rgba(70,230,110,.2);box-shadow:inset 0 0 30px rgba(93,255,138,.5)}
@@ -61,6 +58,7 @@ small{color:var(--mut);font-size:.68rem}
 #goBox{margin-top:6px}
 #go{width:100%;font-family:Impact,sans-serif;font-size:1.8rem;letter-spacing:.08em;padding:8px;border:0;border-radius:12px;background:linear-gradient(#ff9d3c,#e8352e);color:#fff;cursor:pointer;box-shadow:0 5px 0 #7a1d00}
 #go:active{transform:translateY(4px);box-shadow:0 1px 0 #7a1d00}
+#go:disabled{opacity:.5;cursor:not-allowed}
 #msg{text-align:center;color:#ffb38a;min-height:1.2em;font-size:.8rem;margin-top:6px}
 #scouter{width:50%;justify-self:start;align-self:center;background:rgba(10,40,20,.85);border:3px solid var(--grn);border-radius:16px;padding:16px;text-align:center;box-shadow:0 0 24px rgba(93,255,138,.35);animation:fi .6s}
 @keyframes fi{from{opacity:0;transform:translateX(-30px)}}
@@ -72,17 +70,40 @@ small{color:var(--mut);font-size:.68rem}
 #acts button:hover{background:var(--org);color:#000}
 .hide{display:none!important}
 .locked #left{opacity:.5}
-#go:disabled{opacity:.5;cursor:not-allowed}
-@media(max-width:640px){#left{width:auto}#scouter{width:auto}body{height:auto;overflow:auto}#stage{display:block}#mid{width:min(360px,92vw);margin:0 auto 10px}.col{margin-bottom:10px;max-height:none}header{flex-wrap:wrap}.note{position:static;width:auto}}
+
+/* celular: tela única travada, sem rolagem */
+@media(max-width:700px){
+ html{font-size:1.5dvh}
+ html,body{position:fixed;inset:0;width:100%;height:100%;overflow:hidden;overscroll-behavior:none}
+ body{display:block}
+ #stage{position:absolute;inset:0;display:grid;grid-template-columns:30% minmax(0,1fr);grid-template-rows:minmax(0,1fr) 32dvh;gap:.4rem;padding:.4rem}
+ .col{padding:.5rem;gap:.35rem;border-radius:.6rem;overflow:hidden}
+ #left{grid-area:1/1;width:auto;min-width:0;justify-self:stretch}
+ #mid{grid-area:1/2;width:auto;min-width:0;max-width:none}
+ #right{grid-area:2/1/3/3}
+ .col h2{font-size:.95rem}
+ label{font-size:.68rem;gap:.1rem}
+ input,select{font-size:.85rem;padding:.3rem .4rem}
+ small,#hmsg{font-size:.5rem}
+ #view{width:min(100%,18.6rem);margin:0 auto}
+ #nome{height:2.6rem;margin-top:.2rem}
+ #go{font-size:1.5rem;padding:.4rem;border-radius:.6rem;box-shadow:0 .25rem 0 #7a1d00}
+ #goBox{margin-top:.3rem}#msg{font-size:.6rem;min-height:1rem;margin-top:.2rem}
+ #mk{grid-template-columns:1fr 1fr;column-gap:.6rem;height:100%}
+ #mk h2,#mk>small{grid-column:1/3}
+ .c1,.c2{gap:.35rem}
+ .grp b{font-size:.62rem;margin-bottom:.15rem}
+ .chips{gap:.25rem}.chip{font-size:.5rem;padding:.15rem;gap:.1rem;border-radius:.4rem}
+ .chip canvas.hd{width:3rem!important;height:3rem!important}
+ .chip canvas.ar{width:2rem!important;height:3.8rem!important}
+ .sws{gap:.3rem}.sw{width:1.4rem;height:1.4rem}
+ #scouter{width:100%;justify-self:stretch;align-self:stretch;padding:.6rem;display:flex;flex-direction:column;justify-content:center;border-radius:.8rem}
+ #who,#info{font-size:.8rem}#tier{font-size:1.5rem;min-height:1.6em}
+ #acts{margin-top:.5rem;gap:.4rem}#acts button{font-size:.8rem;padding:.4rem .8rem}
+}
 </style>
 </head>
 <body>
-<header>
- <h1>RASTREADOR</h1>
- <div id="nameBox"><input id="nome" maxlength="16" placeholder="SEU NOME" aria-label="Seu nome"></div>
- <details id="how"><summary>Como é calculado?</summary><div class="note"><b>Poder de luta:</b> % de gordura pelo método da Marinha dos EUA (altura, pescoço e cintura) para adultos e pela fórmula de Deurenberg (IMC + idade + sexo) para menores de 18; abaixo de 14% conta como 14%. A massa magra (peso × (1 − gordura)) é multiplicada pela proximidade das suas medidas (braço, peito, coxa e relação peito/cintura) das proporções de um fisiculturista de elite. Gordura acima de 14% reduz o poder; menores de 18 recebem um fator de idade. 20.000 é o auge do Ramon Dino. O corpo do avatar é escolhido por peso e altura. É uma estimativa lúdica, não um exame médico. Tudo roda no seu navegador.</div></details>
-</header>
-
 <div id="stage">
  <div class="col" id="left">
   <h2>Medidas</h2>
@@ -102,7 +123,7 @@ small{color:var(--mut);font-size:.68rem}
    <canvas id="aura"></canvas><canvas id="fig"></canvas>
    <div id="hud"><div class="tint"></div><div id="digits">00000</div><div class="ret" id="ret"></div><i class="tri l"></i><i class="tri r"></i><i class="tri u"></i></div>
   </div></div>
-  <div id="plate">GUERREIRO</div>
+  <input id="nome" maxlength="16" placeholder="DIGITE SEU NOME" aria-label="Seu nome" autocomplete="off">
   <div id="goBox"><button id="go">RASTREADOR</button><div id="msg" role="alert">Carregando imagens…</div></div>
  </div>
 
@@ -110,8 +131,8 @@ small{color:var(--mut);font-size:.68rem}
   <div class="col" id="mk"></div>
   <div id="scouter" class="hide">
    <div id="who"></div><div id="tier">&nbsp;</div><div id="info"></div>
-   <div id="acts"><button id="share">Compartilhar</button><button id="shot">Fazer print</button><button id="reset">Zerar</button></div>
-   <small id="fhint" class="hide" style="display:block;margin-top:10px">Quer fazer o seu? Clique em “Zerar e fazer o meu” para limpar tudo.</small>
+   <div id="acts"><button id="share">Compartilhar</button><button id="shot">Fazer print</button><button id="reset">Fazer o Meu</button></div>
+   <small id="fhint" class="hide" style="display:block;margin-top:10px">Quer fazer o seu? Clique em “Fazer o Meu”.</small>
   </div>
  </div>
 </div>
@@ -139,7 +160,7 @@ let S={...S0};
 function cleanS(o){const r={...S0};if(!o)return r;
   for(const k in LIM){const v=+o[k];if(Number.isInteger(v)&&v>=LIM[k][0]&&v<=LIM[k][1])r[k]=v;}
   ['skin','hc'].forEach(k=>{if(/^#[0-9a-f]{6}$/i.test(o[k]))r[k]=o[k];});return r;}
-/* corpo = consequência de peso e altura */
+/* corpo = consequência de peso e altura (IMC) */
 function autoBody(){const h=num('altura')/100,w=num('peso');if(!(h>=1&&w>0))return 2;const b=w/(h*h);return b<20.5?1:b<30?2:3;}
 function syncBody(){const b=autoBody();if(b!==S.body&&ready){S.body=b;drawFig();ui();}else S.body=b;}
 
@@ -162,43 +183,49 @@ function tint(name,mode,color,w){
   if(w===CW){big.push(k);if(big.length>10)delete cache[big.shift()];}
   return cache[k]=c;
 }
-const hairColor=()=>level>=20000?'#7fd0ff':level>=10000?'#ffd92a':S.hc;
+const hairFor=(p,hc)=>p>=200000?'#7fd0ff':p>=100000?'#ffd92a':hc;
+const hairColor=()=>hairFor(level,S.hc);
 
 /* ---------- avatar ---------- */
-function drawFig(){
-  const f=$('fig'),x=f.getContext('2d'),hc=hairColor(),key=`${S.armor}-${S.body}`,hd=HEAD[key],dx=(hd[0]-HEAD['0-2'][0])*CW;
-  x.clearRect(0,0,CW,CH);
-  x.drawImage(tint(`ROUPA_${key}`,'skin',S.skin,CW),0,0);
-  if(S.beard)x.drawImage(tint(`BARBA_${S.beard}`,'hair',hc,CW),dx,0);
-  if(S.hair)x.drawImage(tint(`CABELO_${S.hair}`,'hair',hc,CW),dx,0);
-  $('ret').style.left=hd[0]*100+'%';$('ret').style.top=hd[1]*100+'%';
+function paint(x,st,hc){
+  const key=`${st.armor}-${st.body}`,hd=HEAD[key],dx=(hd[0]-HEAD['0-2'][0])*CW;
+  x.drawImage(tint(`ROUPA_${key}`,'skin',st.skin,CW),0,0);
+  if(st.beard)x.drawImage(tint(`BARBA_${st.beard}`,'hair',hc,CW),dx,0);
+  if(st.hair)x.drawImage(tint(`CABELO_${st.hair}`,'hair',hc,CW),dx,0);
+  return hd;
 }
-function plate(){const n=$('nome').value.trim()||'Guerreiro',p=$('plate');p.textContent=n;p.style.fontSize=cl($('mid').clientWidth*.95/(n.length*.55),18,34)+'px';}
+function drawFig(){
+  const x=$('fig').getContext('2d');x.clearRect(0,0,CW,CH);
+  const hd=paint(x,S,hairColor());$('ret').style.left=hd[0]*100+'%';$('ret').style.top=hd[1]*100+'%';
+}
+function plate(){const n=$('nome'),len=Math.max(10,n.value.length);n.style.fontSize=cl($('mid').clientWidth*.95/(len*.55),16,34)+'px';}
 
 /* ---------- painel de montagem ---------- */
 const TW=400,lay=(n,m,c)=>tint(n,m,c,TW);
-function crop(ls,sx,sy,sw,sh,tw,th){
-  const c=document.createElement('canvas');c.width=tw*2;c.height=th*2;c.style.width=tw+'px';c.style.height=th+'px';
+function crop(ls,sx,sy,sw,sh,tw,th,cls){
+  const c=document.createElement('canvas');c.width=tw*2;c.height=th*2;c.style.width=tw+'px';c.style.height=th+'px';c.className=cls;
   const x=c.getContext('2d');for(const l of ls)x.drawImage(l,sx,sy,sw,sh,0,0,c.width,c.height);return c;}
 function thumb(k,v){
   const th=Math.round(TW*CH/CW),hd=HEAD[`${S.armor}-${S.body}`],cx=hd[0]*TW,cy=hd[1]*th;
-  if(k==='armor')return crop([lay(`ROUPA_${v}-${S.body}`,'skin',S.skin)],0,0,TW,th,40,Math.round(40*th/TW));
+  if(k==='armor')return crop([lay(`ROUPA_${v}-${S.body}`,'skin',S.skin)],0,0,TW,th,40,Math.round(40*th/TW),'ar');
   const ls=[lay(`ROUPA_${S.armor}-${S.body}`,'skin',S.skin)],hb=n=>lay(n,'hair',S.hc);
   const beard=k==='beard'?v:S.beard,hair=k==='hair'?v:S.hair;
   if(beard)ls.push(hb(`BARBA_${beard}`));if(hair)ls.push(hb(`CABELO_${hair}`));
   const s=k==='hair'?.56*TW:.36*TW;
-  return crop(ls,cx-s/2,k==='hair'?cy-s*.62:cy-s*.3,s,s,56,56);}
+  return crop(ls,cx-s/2,k==='hair'?cy-s*.62:cy-s*.3,s,s,56,56,'hd');}
 function ui(){
-  const m=$('mk');m.innerHTML=`<h2>Monte seu guerreiro</h2><small>Corpo: <b>${BODYN[S.body]}</b> (escolhido pelo seu peso e altura)</small>`;
+  const m=$('mk');m.innerHTML=`<h2>Monte seu guerreiro</h2><small>Corpo: <b>${BODYN[S.body]}</b> (automático, pelo seu peso e altura)</small>`;
+  const c1=document.createElement('div'),c2=document.createElement('div');c1.className='c1';c2.className='c2';
   for(const [k,t,o] of GROUPS){
     const g=document.createElement('div');g.className='grp';g.innerHTML=`<b>${t}</b>`;
     const ch=document.createElement('div');ch.className='chips';
     for(const v in o){const b=document.createElement('button');b.type='button';b.className='chip'+(S[k]===+v?' on':'');
       b.dataset.k=k;b.dataset.v=v;
       b.append(thumb(k,+v),Object.assign(document.createElement('span'),{textContent:o[v]}));ch.append(b);}
-    g.append(ch);m.append(g);}
-  const sw=(k,a,t)=>{const g=document.createElement('div');g.className='grp';g.innerHTML=`<b>${t}</b><div class="sws">`+a.map(c=>`<button type="button" class="sw${S[k]===c?' on':''}" data-k="${k}" data-c="${c}" style="background:${c}" aria-label="Cor ${c}"></button>`).join('')+'</div>';m.append(g);};
+    g.append(ch);(k==='beard'?c2:c1).append(g);}
+  const sw=(k,a,t)=>{const g=document.createElement('div');g.className='grp';g.innerHTML=`<b>${t}</b><div class="sws">`+a.map(c=>`<button type="button" class="sw${S[k]===c?' on':''}" data-k="${k}" data-c="${c}" style="background:${c}" aria-label="Cor ${c}"></button>`).join('')+'</div>';c2.append(g);};
   sw('skin',SKIN,'Cor da pele');sw('hc',HAIR,'Cor do cabelo e barba');
+  m.append(c1,c2);
 }
 $('mk').onclick=e=>{const b=e.target.closest('button');if(!b||!ready)return;
   if(b.dataset.c)S[b.dataset.k]=b.dataset.c;else S[b.dataset.k]=+b.dataset.v;drawFig();ui();};
@@ -220,15 +247,16 @@ function bodyFat(d){
   const h=d.altura,bmi=d.peso/Math.pow(h/100,2);let bf;
   if(d.idade<18)bf=1.51*bmi-0.70*d.idade-3.6+1.4;
   else bf=495/(1.0324-0.19077*Math.log10(Math.max(1,d.cint-d.pesc))+0.15456*Math.log10(h))-450;
-  return cl(bf,14,50);
+  return cl(bf,10,50);
 }
 function power(d){
-  const bf=bodyFat(d),h=d.altura,lean=d.peso*(1-bf/100),mass=lean/100;
+  const bf=bodyFat(d),h=d.altura,lean=d.peso*(1-bf/100);
   const r=(v,i)=>cl(v/i,0,1.1),Q=(r(d.bic,.281*h)+r(d.peito,.73*h)+r(d.coxa,.427*h)+r(d.peito/d.cint,1.62))/4;
-  const p=20000*mass*Math.pow(Q,1.2)*Math.exp(-Math.max(0,bf-14)/40)*(d.idade<18?Math.pow(d.idade/18,2):1);
-  return{p:Math.max(100,Math.round(Math.min(p,30000)/10)*10),bf};
+  const z=lean/96*Math.pow(Q,2.5)*Math.exp(-Math.max(0,bf-14)/40)*(d.idade<18?Math.pow(d.idade/18,2):1);
+  const p=10000+490000*Math.pow(z,2.35); /* parábola: parte de 10.000 e acelera até 500.000 */
+  return{p:Math.round(Math.min(p,500000)/100)*100,bf};
 }
-function tier(p){return p>=20000?'LENDÁRIO — nível Ramon':p>=15000?'Super Saiyajin 2':p>=10000?'Super Saiyajin':p>=8000?'Elite Saiyajin':p>=5000?'Guerreiro Z':p>=2000?'Soldado de treino':p>=1000?'Humano comum':'Saibaman';}
+function tier(p){return p>=200000?'Super Saiyajin Deus':p>=150000?'Super Saiyajin 2':p>=100000?'Super Saiyajin':p>=70000?'Elite Saiyajin':p>=40000?'Guerreiro Z':p>=20000?'Soldado de treino':p>=12000?'Humano comum':'Saibaman';}
 
 /* ---------- rastreador ---------- */
 function reveal(n,who,info){
@@ -261,10 +289,33 @@ $('go').onclick=()=>{
   reveal(r.p,'Poder de luta de '+nome,'Gordura corporal estimada: '+window.last.bf.toFixed(1)+'%');
 };
 
-/* ---------- compartilhar / zerar / print ---------- */
+/* ---------- compartilhar (com miniatura), fazer o meu, print ---------- */
+function makeThumb(l){
+  const st=cleanS(l.s),hc=hairFor(l.p,st.hc),W=720,H=640,c=document.createElement('canvas');c.width=W;c.height=H;
+  const x=c.getContext('2d'),t=document.createElement('canvas');t.width=CW;t.height=CH;
+  const hd=paint(t.getContext('2d'),st,hc);
+  x.fillStyle='#0d3b2e';x.fillRect(0,0,W,H);
+  const g=x.createRadialGradient(W/2,H*.6,40,W/2,H*.6,W*.6);g.addColorStop(0,'rgba(93,255,138,.4)');g.addColorStop(1,'rgba(93,255,138,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+  const sw=CW*.8,sh=sw*500/W;x.drawImage(t,hd[0]*CW-sw/2,hd[1]*CH-sh*.38,sw,sh,0,140,W,500);
+  x.fillStyle='rgba(93,255,138,.07)';for(let y=0;y<H;y+=4)x.fillRect(0,y,W,2);
+  x.fillStyle='#ffb21a';x.beginPath();x.moveTo(W/2,285);x.lineTo(W/2+26,330);x.lineTo(W/2-26,330);x.fill();
+  x.beginPath();x.moveTo(24,H*.62);x.lineTo(64,H*.62-30);x.lineTo(64,H*.62+30);x.fill();
+  x.beginPath();x.moveTo(W-24,H*.62);x.lineTo(W-64,H*.62-30);x.lineTo(W-64,H*.62+30);x.fill();
+  x.textAlign='center';x.shadowColor='rgba(255,194,26,.8)';x.shadowBlur=16;x.fillStyle='#ffc21a';
+  x.font='bold 118px "Courier New",monospace';x.fillText(String(l.p),W/2,118);
+  x.shadowBlur=0;x.fillStyle='rgba(0,0,0,.45)';x.fillRect(0,H-70,W,70);
+  x.fillStyle='#ffe9a8';x.font='44px Impact,"Arial Black",sans-serif';x.fillText(String(l.n).toUpperCase(),W/2,H-22);
+  x.strokeStyle='#5dff8a';x.lineWidth=8;x.strokeRect(4,4,W-8,H-8);
+  return c;
+}
 $('share').onclick=async()=>{
   const l=window.last,url=location.href.split('#')[0]+'#d='+btoa(unescape(encodeURIComponent(JSON.stringify(l)))),txt=l.n+' tem poder de luta '+l.p+'! Quanto é o seu?';
-  try{if(navigator.share){await navigator.share({title:'RASTREADOR',text:txt,url});return;}}catch(e){}
+  let file=null;
+  try{const blob=await new Promise(r=>makeThumb(l).toBlob(r,'image/png'));file=new File([blob],'rastreador.png',{type:'image/png'});}catch(e){}
+  try{
+    if(file&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text:txt+'\n'+url});return;}
+    if(navigator.share){await navigator.share({title:'RASTREADOR',text:txt,url});return;}
+  }catch(e){if(e&&e.name==='AbortError')return;}
   try{await navigator.clipboard.writeText(url);alert('Link copiado! Mande para seus amigos.');}catch(e){prompt('Copie o link:',url);}
 };
 $('reset').onclick=()=>{history.replaceState(null,'',location.pathname+location.search);location.reload();};
@@ -275,7 +326,7 @@ $('shot').onclick=()=>{
 
 /* ---------- aura e raios ---------- */
 const ac=$('aura'),ax=ac.getContext('2d'),P=[];
-const auraColor=p=>p>=20000?[90,170,255]:p>=10000?[255,215,40]:p>=5000?[255,170,50]:p>=2000?[180,220,255]:[230,230,230];
+const auraColor=p=>p>=200000?[90,170,255]:p>=100000?[255,215,40]:p>=50000?[255,170,50]:p>=20000?[180,220,255]:[230,230,230];
 function bolt(x,y,a,len,w,d,col){
   const br=[];ax.lineWidth=w;ax.strokeStyle=col;ax.shadowColor=col;ax.shadowBlur=16;ax.beginPath();ax.moveTo(x,y);
   for(let i=0;i<8;i++){a+=(Math.random()-.5)*1.3;x+=Math.cos(a)*len/8;y+=Math.sin(a)*len/8;ax.lineTo(x,y);
@@ -284,9 +335,9 @@ function bolt(x,y,a,len,w,d,col){
 }
 function frame(){
   level+=(target-level)*.08;
-  const I=Math.min(1.4,level/20000),W=ac.width,H=ac.height,col=auraColor(level);
+  const I=Math.min(1.4,level/200000),W=ac.width,H=ac.height,col=auraColor(level);
   ax.clearRect(0,0,W,H);
-  if(level>50){
+  if(level>5000){
     const n=Math.floor(4+I*40);
     for(let i=0;i<n&&P.length<400;i++)P.push({x:W*(.22+Math.random()*.56),y:H*.93,vx:(Math.random()-.5)*(1+I),vy:-(1.5+Math.random()*(2+I*4))*H/520,l:1,s:6+Math.random()*(10+I*30)});
     ax.globalCompositeOperation='lighter';
@@ -296,22 +347,22 @@ function frame(){
     for(let i=P.length-1;i>=0;i--){const q=P[i];q.x+=q.vx;q.y+=q.vy;q.l-=.02;
       if(q.l<=0){P.splice(i,1);continue;}
       ax.fillStyle=`rgba(${col},${q.l*.5})`;ax.beginPath();ax.ellipse(q.x,q.y,q.s*q.l*.6,q.s*q.l*1.4,0,0,7);ax.fill();}
-    if(level>8000){
-      const nb=Math.min(14,2+Math.floor((level-8000)/1000)),lc=level>=20000?'#bfe4ff':'#fff36b';
+    if(level>80000){
+      const nb=Math.min(14,2+Math.floor((level-80000)/10000)),lc=level>=200000?'#bfe4ff':'#fff36b';
       for(let i=0;i<nb;i++){if(Math.random()<.4)continue;
         bolt(W*(.1+Math.random()*.8),H*(.08+Math.random()*.8),Math.random()*6.28,60+Math.random()*(110+I*80),2+I*2.5,0,lc);}
       ax.shadowBlur=0;
-      if(level>12000&&Math.random()<.05){ax.fillStyle='rgba(255,255,255,.2)';ax.fillRect(0,0,W,H);}
+      if(level>120000&&Math.random()<.05){ax.fillStyle='rgba(255,255,255,.2)';ax.fillRect(0,0,W,H);}
     }
     ax.globalCompositeOperation='source-over';
   }
-  const K=level>=20000?2:level>=10000?1:0;
+  const K=level>=200000?2:level>=100000?1:0;
   if(K!==lastK){lastK=K;if(ready)drawFig();}
   requestAnimationFrame(frame);
 }
 
 /* ---------- inicialização ---------- */
-new ResizeObserver(()=>$('stack').style.setProperty('--u',$('stack').clientWidth/100+'px')).observe($('stack'));
+new ResizeObserver(()=>{$('stack').style.setProperty('--u',$('stack').clientWidth/100+'px');plate();}).observe($('stack'));
 Promise.all(Object.keys(DATA).map(k=>new Promise(r=>{const i=new Image();i.onload=r;i.src=DATA[k];IMG[k]=i;}))).then(()=>{
   CW=IMG['ROUPA_0-2'].naturalWidth;CH=IMG['ROUPA_0-2'].naturalHeight;
   const f=$('fig');f.width=CW;f.height=CH;$('stack').style.aspectRatio=CW+'/'+CH;
@@ -322,7 +373,7 @@ Promise.all(Object.keys(DATA).map(k=>new Promise(r=>{const i=new Image();i.onloa
     S=cleanS(friend.s);friend.n=String(friend.n||'Guerreiro').slice(0,16);
     $('stage').classList.add('locked');document.querySelectorAll('#left input,#left select,#nome,#go').forEach(e=>e.disabled=true);
     $('nome').value=friend.n;$('msg').textContent='';$('mk').style.display='none';
-    $('share').classList.add('hide');$('reset').textContent='Zerar e fazer o meu';$('fhint').classList.remove('hide');
+    $('share').classList.add('hide');$('fhint').classList.remove('hide');
     ready=true;drawFig();plate();$('scouter').classList.remove('hide');
     setTimeout(()=>reveal(+friend.p,'Poder de luta de '+friend.n,'Gordura corporal estimada: '+(+friend.bf).toFixed(1)+'%'),700);
   }else{ready=true;S.body=autoBody();drawFig();ui();plate();$('msg').textContent='';}
